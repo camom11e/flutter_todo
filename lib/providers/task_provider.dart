@@ -21,13 +21,11 @@ class TaskProvider with ChangeNotifier {
 
   void moveTaskToNextStatus(String taskId) {
     final task = _tasks.firstWhere((task) => task.id == taskId);
-    // Меняем статус на следующий
     if (task.status == TaskStatus.newTask) {
       task.status = TaskStatus.inProgress;
     } else if (task.status == TaskStatus.inProgress) {
       task.status = TaskStatus.completed;
     }
-    // Если задача уже завершена, ничего не делаем
     notifyListeners();
   }
 }

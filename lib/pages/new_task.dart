@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
-import '../widgets/base_page.dart';
+import '../widgets/task_card.dart';
 
 class NewTasksPage extends StatelessWidget {
   const NewTasksPage({super.key});
@@ -47,9 +47,12 @@ class NewTasksPage extends StatelessWidget {
     final tasks = taskProvider.getTasksByStatus(TaskStatus.newTask);
 
     return Scaffold(
-      body: BasePage(
-        tasks: tasks,
-      ),
+      body: tasks.isEmpty
+          ? const Center(child: Text('Нет задач'))
+          : ListView.builder(
+              itemCount: tasks.length,
+              itemBuilder: (context, index) => TaskCard(task: tasks[index]),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddTaskDialog(context),
         child: const Icon(Icons.add),

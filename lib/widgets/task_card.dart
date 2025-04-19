@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Добавляем импорт
+import 'package:provider/provider.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
 
@@ -14,7 +14,6 @@ class TaskCard extends StatelessWidget {
       child: ListTile(
         title: Text(task.title),
         onTap: () {
-          // Меняем статус задачи по клику
           Provider.of<TaskProvider>(context, listen: false)
               .moveTaskToNextStatus(task.id);
         },
