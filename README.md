@@ -1,6 +1,8 @@
-# flutter_application_1
+# FLUTTER TODO
 
-A new Flutter project.
+Приложение сделаное на Flutter
+
+В приложение есть 3 страницы Новое, В работе и Заверенные
 
 ## Getting Started
 
