@@ -13,9 +13,7 @@ class CompletedPage extends StatelessWidget {
     final tasks = taskProvider.getTasksByStatus(TaskStatus.completed);
 
     return BasePage(
-      title: 'Завершённые',
       tasks: tasks,
-      status: TaskStatus.completed,
     );
   }
 }

@@ -32,34 +32,42 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
-  // Список страниц для навигации
-  final List<Widget> _pages = const [
-    NewTasksPage(),
-    InProgressPage(),
-    CompletedPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Новые'),
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'В работе'),
-          BottomNavigationBarItem(icon: Icon(Icons.check), label: 'Завершённые'),
+      appBar: AppBar(
+        title: const Text('Task Manager'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Новые'),
+            Tab(text: 'В работе'),
+            Tab(text: 'Завершённые'),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          NewTasksPage(),
+          InProgressPage(),
+          CompletedPage(),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
       ),
     );
   }

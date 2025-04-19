@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Добавляем импорт
 import '../models/task.dart';
+import '../providers/task_provider.dart';
 
 class TaskCard extends StatelessWidget {
   final Task task;
@@ -8,22 +10,14 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable<Task>(
-      data: task, // Данные, которые передаются при перетаскивании
-      feedback: Material(
-        // Как выглядит карточка во время перетаскивания
-        child: Card(
-          child: ListTile(
-            title: Text(task.title),
-            subtitle: const Text('Перетаскивается...'),
-          ),
-        ),
-      ),
-      childWhenDragging: Container(), // Пустое место, когда карточка перетаскивается
-      child: Card(
-        child: ListTile(
-          title: Text(task.title),
-        ),
+    return Card(
+      child: ListTile(
+        title: Text(task.title),
+        onTap: () {
+          // Меняем статус задачи по клику
+          Provider.of<TaskProvider>(context, listen: false)
+              .moveTaskToNextStatus(task.id);
+        },
       ),
     );
   }

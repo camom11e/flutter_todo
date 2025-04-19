@@ -13,9 +13,7 @@ class InProgressPage extends StatelessWidget {
     final tasks = taskProvider.getTasksByStatus(TaskStatus.inProgress);
 
     return BasePage(
-      title: 'В работе',
       tasks: tasks,
-      status: TaskStatus.inProgress,
     );
   }
 }

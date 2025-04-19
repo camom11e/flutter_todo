@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
-import 'package:uuid/uuid.dart'; // Для генерации уникальных ID
+import 'package:uuid/uuid.dart';
 
 class TaskProvider with ChangeNotifier {
-  // Список всех задач
   final List<Task> _tasks = [];
 
-  // Получить задачи по статусу
   List<Task> getTasksByStatus(TaskStatus status) {
     return _tasks.where((task) => task.status == status).toList();
   }
 
-  // Добавить новую задачу
   void addTask(String title) {
     final task = Task(
-      id: const Uuid().v4(), // Генерируем уникальный ID
+      id: const Uuid().v4(),
       title: title,
       status: TaskStatus.newTask,
     );
     _tasks.add(task);
-    notifyListeners(); // Уведомляем интерфейс об изменениях
+    notifyListeners();
   }
 
-  // Изменить статус задачи (для перетаскивания)
-  void updateTaskStatus(String taskId, TaskStatus newStatus) {
+  void moveTaskToNextStatus(String taskId) {
     final task = _tasks.firstWhere((task) => task.id == taskId);
-    task.status = newStatus;
-    notifyListeners(); // Уведомляем интерфейс об изменениях
+    // Меняем статус на следующий
+    if (task.status == TaskStatus.newTask) {
+      task.status = TaskStatus.inProgress;
+    } else if (task.status == TaskStatus.inProgress) {
+      task.status = TaskStatus.completed;
+    }
+    // Если задача уже завершена, ничего не делаем
+    notifyListeners();
   }
 }
