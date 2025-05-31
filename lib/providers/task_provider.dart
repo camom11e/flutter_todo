@@ -28,4 +28,26 @@ class TaskProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void moveTaskToBackStatus(String taskId) {
+    final task = _tasks.firstWhere((task) => task.id == taskId);
+    if (task.status == TaskStatus.inProgress) {
+      task.status = TaskStatus.newTask;
+    } else if (task.status == TaskStatus.completed) {
+      task.status = TaskStatus.inProgress;
+    }
+    notifyListeners();
+  }
+
+  void deleteTask(String taskId) {
+    _tasks.removeWhere((task)=>task.id==taskId);
+    notifyListeners();
+  }
+  void updateTaskTitle(String taskId, String newTitle) {
+    final taskIndex = _tasks.indexWhere((task) => task.id == taskId);
+    if (taskIndex != -1) {
+      _tasks[taskIndex].title = newTitle;
+      notifyListeners();
+  }
+}
 }

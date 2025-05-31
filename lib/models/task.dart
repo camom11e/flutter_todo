@@ -2,7 +2,7 @@ enum TaskStatus { newTask, inProgress, completed }
 
 class Task {
   final String id;
-  final String title;
+  String title;
   TaskStatus status;
 
   Task({
